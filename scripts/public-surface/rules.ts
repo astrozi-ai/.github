@@ -74,6 +74,11 @@ export const RULES: Rule[] = [
 /** Paths that must never be tracked in a public repository. */
 export const FORBIDDEN_PATHS: { id: string; test: (path: string) => boolean; reason: string }[] = [
   {
+    id: "local-state-path",
+    test: (path) => /(^|\/)(_ops|_ref|vault)\//.test(path),
+    reason: "local operations, reference or vault material belongs to private repositories",
+  },
+  {
     id: "env-file",
     test: (path) => /(^|\/)\.env(\.|$)/.test(path) && !path.endsWith(".env.example"),
     reason: "environment files hold credentials",

@@ -45,6 +45,10 @@ describe("public-surface rules", () => {
   });
 
   test("forbidden tracked paths", () => {
+    for (const path of ["_ops/notes.md", "nested/_ref/example.txt", "vault/example.txt"]) {
+      expect(scanPath(path).map((f) => f.rule)).toEqual(["local-state-path"]);
+    }
+    expect(scanPath("src/vault.ts")).toEqual([]);
     expect(scanPath("apps/.env.local").map((f) => f.rule)).toEqual(["env-file"]);
     expect(scanPath("apps/.env.example")).toEqual([]);
   });
